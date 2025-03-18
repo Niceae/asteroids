@@ -19,6 +19,7 @@ def main():
 
             screen.fill("black")
             player_ship.draw(screen)
+            player_ship.update(dt)
             pygame.display.flip()
 if __name__ == "__main__":
     print ("Starting Asteroids!")
