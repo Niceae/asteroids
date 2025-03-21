@@ -3,6 +3,7 @@ import constants
 from constants import *
 import pygame
 import main
+import shot
 class Player(circleshape.CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, constants.PLAYER_RADIUS)
@@ -25,6 +26,12 @@ class Player(circleshape.CircleShape):
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+    
+    def shoot(self):
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        position = self.position + forward * self.radius
+        # Just create the shot, it will automatically add itself to the containers
+        shot.Shot(position.x, position.y, SHOT_RADIUS, forward * PLAYER_SHOOT_SPEED)
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
@@ -37,3 +44,5 @@ class Player(circleshape.CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
