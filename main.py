@@ -42,7 +42,7 @@ def main():
                 for asteroid in asteroids:
                     if shot.collides_with(asteroid):
                         shot.kill()
-                        asteroid.kill()
+                        asteroid.split()
 
             # Check for collisions between the player's ship and asteroids
             for asteroid in asteroids:
