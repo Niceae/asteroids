@@ -5,7 +5,7 @@ import player
 from asteroid import Asteroid
 import asteroidfield
 import circleshape
-import shot
+import shot as shot_module # Renamed to avoid conflict with the Shot class
 pygame.init()
 from constants import *
 def main():
@@ -21,7 +21,7 @@ def main():
         player.Player.containers = (updatable, drawables)
         Asteroid.containers = (asteroids, updatable, drawables)
         asteroidfield.AsteroidField.containers = (updatable)
-        shot.Shot.containers = (shots, updatable, drawables)
+        shot_module.Shot.containers = (shots, updatable, drawables)
         player_ship = player.Player(x,y)
         asteroid_field = asteroidfield.AsteroidField()
         
@@ -37,6 +37,14 @@ def main():
                 drawable.draw(screen)
             updatable.update(dt)
                         # After updating all game objects
+            # Check for collisions between shots and asteroids
+            for shot in shots:
+                for asteroid in asteroids:
+                    if shot.collides_with(asteroid):
+                        shot.kill()
+                        asteroid.kill()
+
+            # Check for collisions between the player's ship and asteroids
             for asteroid in asteroids:
                 if player_ship.collides_with(asteroid):
                     # Create and render the game over text
